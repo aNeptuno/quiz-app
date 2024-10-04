@@ -1,6 +1,6 @@
 # QuizApp - Technical Quiz Application 🎯💻
 
-Welcome to **QuizApp**! This is a simple web application built with **Next.js** and **Tailwind CSS** that generates technical questions using the [QuizAPI.io](https://quizapi.io/) API. Currently, the app focuses on the **Programming** category to test your coding knowledge.
+Welcome to **QuizApp**! This is a simple web application built with **Next.js** and **Tailwind CSS** that generates technical questions using the [QuizAPI.io](https://quizapi.io/) API.
 
 ## Features ✨
 

@@ -2,6 +2,7 @@
 import confetti from 'canvas-confetti';
 import { useState } from 'react';
 import useAnswers from '../hooks/useAnswers';
+import SubmitButton from './SubmitButton';
 
 export default function Quiz({ category }) {
 	const [selectedAnswers, setSelectedAnswers] = useState([]);
@@ -62,14 +63,7 @@ export default function Quiz({ category }) {
 						</div>
 					);
 				})}
-				{isCorrect === null && (
-					<button
-						type="submit"
-						className="bg-blue-300 hover:bg-blue-500 rounded text-slate-100 px-4 py-3 mt-6"
-					>
-						Send answer
-					</button>
-				)}
+				{isCorrect === null && <SubmitButton text="Send answer" />}
 			</form>
 			{isCorrect !== null && (
 				<div className="flex flex-col pb-4 items-center">

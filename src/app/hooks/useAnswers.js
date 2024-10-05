@@ -66,6 +66,7 @@ export default function useAnswers({ category, difficulty }) {
 	}, [category, difficulty]);
 
 	const checkAnswers = selectedAnswers => {
+		if (selectedAnswers.length === 0) return false;
 		let i = 0;
 		while (selectedAnswers[i] && answersMap[selectedAnswers[i]]) i++;
 		const isQuizCorrect = i === selectedAnswers.length;

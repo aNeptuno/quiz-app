@@ -11,7 +11,7 @@ export default function ThemeProvider({ children }) {
 
 	useEffect(() => {
 		const loadedTheme = localStorage.getItem(THEME);
-		if ((loadedTheme === null) | (loadedTheme.length === 0)) return;
+		if (loadedTheme === null) return;
 		setTheme(loadedTheme);
 	}, []);
 

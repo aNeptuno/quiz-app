@@ -2,8 +2,9 @@
 import confetti from 'canvas-confetti';
 import { useState } from 'react';
 import useAnswers from '../hooks/useAnswers';
-import SubmitButton from './SubmitButton';
+import QuizInfo from './QuizInfo';
 import Spinner from './Spinner';
+import SubmitButton from './SubmitButton';
 
 function getDiffClass(diff) {
 	if (diff === 'Easy') return `text-green-500`;
@@ -14,10 +15,11 @@ function getDiffClass(diff) {
 export default function Quiz({ category, difficulty }) {
 	const [selectedAnswers, setSelectedAnswers] = useState([]);
 	const [isCorrect, setIsCorrect] = useState(null);
-	const { quizData, answersData, checkAnswers, loading } = useAnswers({
-		category,
-		difficulty,
-	});
+	const { quizData, answersData, checkAnswers, loading, correctAnswers } =
+		useAnswers({
+			category,
+			difficulty,
+		});
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -39,68 +41,62 @@ export default function Quiz({ category, difficulty }) {
 		}
 	};
 
-	const getQuestion = () => {
-		window.location.reload();
-	};
 	return (
-		<section className="sm:p-0 p-6 md:w-[80%] lg:w-[40%] m-auto">
+		<section className="sm:p-0 p-6 md:w-[80%] lg:w-[50%] m-auto">
 			{loading ? (
 				<Spinner />
 			) : (
 				<>
-					<h1 className="text-center pb-10">
+					<h1 className="text-center mb-6">
 						Test your {category === 'uncategorized' ? '' : category} knowledge
 					</h1>
 					<h3 className={getDiffClass(quizData.difficulty)}>
 						Difficulty: {quizData.difficulty}
 					</h3>
-					<h2 className="py-8">{quizData.question}</h2>
+					<h2 className="md:py-8 py-4">{quizData.question}</h2>
 
-					<form className="text-center" onSubmit={handleSubmit}>
-						<div>
+					<form onSubmit={handleSubmit}>
+						<div className="formInfo">
 							{answersData.map(item => {
 								return (
 									<div
 										key={item.answer}
-										className="py-4 flex flex-row justify-between"
+										className="py-4 flex w-full justify-between"
 									>
-										<label htmlFor={item.answer}>
+										<label htmlFor={item.answer} className="w-4/5">
 											<span className="text-blue-900 font-bold pr-3">
 												{item.option}.{' '}
 											</span>
 											<span className="text-gray-900">{item.answer}</span>
 										</label>
-										<input
-											className="w-5"
-											type="checkbox"
-											name={item.answer}
-											id={item.answer}
-											value={item.answer}
-											onChange={handleChange}
-											disabled={isCorrect !== null}
-										/>
+										<div className="w-1/5">
+											<input
+												className="w-5 h-5 cursor-pointer"
+												type="checkbox"
+												name={item.answer}
+												id={item.answer}
+												value={item.answer}
+												onChange={handleChange}
+												disabled={isCorrect !== null}
+											/>
+										</div>
 									</div>
 								);
 							})}
 						</div>
-						{isCorrect === null && <SubmitButton text="Send answer" />}
+						{isCorrect === null && (
+							<div className="formBtn">
+								<SubmitButton text="Send answer" />
+							</div>
+						)}
 					</form>
+
 					{isCorrect !== null && (
-						<div className="flex flex-col pb-4 items-center">
-							{isCorrect === true ? (
-								<h1 className="text-green-500 text-center">Correct!</h1>
-							) : (
-								<h1 className="text-red-500">Wrong, keep studying!</h1>
-							)}
-							<p>{quizData.explanation ?? quizData.explanation}</p>
-							<button
-								onClick={getQuestion}
-								aria-label="Next question"
-								className="bg-slate-300 hover:bg-slate-400 rounded text-slate-50 px-4 py-3 mt-6"
-							>
-								Next question
-							</button>
-						</div>
+						<QuizInfo
+							quizData={quizData}
+							correctAnswers={correctAnswers}
+							isCorrect={isCorrect}
+						/>
 					)}
 				</>
 			)}

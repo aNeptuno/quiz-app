@@ -26,6 +26,8 @@ function getAnswersData(answers, correctAnswers) {
 	}, []);
 	return answersData;
 }
+
+// example: answersMap = { ls: false, delete: false, remove: false, rmdir: true };
 function getAnswersMap(answers, correctAnswers) {
 	const answersMap = answers.reduce((acc, current, index) => {
 		if (current !== null) {
@@ -45,6 +47,7 @@ export default function useAnswers({ category, difficulty }) {
 	const [loading, setLoading] = useState(true);
 	const [answersData, setAnswersData] = useState(null);
 	const [answersMap, setAnswersMap] = useState(null);
+	const [correctAnswers, setCorrectAnswers] = useState([]);
 
 	useEffect(() => {
 		async function getQuizData() {
@@ -54,11 +57,17 @@ export default function useAnswers({ category, difficulty }) {
 			setQuizData(quizData[index]);
 			if (quizData && quizData.length > 0) {
 				const answers = Object.values(quizData[index].answers);
-				const correctAnswers = Object.values(quizData[index].correct_answers);
-				const answersData = getAnswersData(answers, correctAnswers);
-				const answersMap = getAnswersMap(answers, correctAnswers);
+				const correctAnswersData = Object.values(
+					quizData[index].correct_answers
+				);
+				const answersData = getAnswersData(answers, correctAnswersData);
+				const answersMap = getAnswersMap(answers, correctAnswersData);
 				setAnswersData(answersData);
 				setAnswersMap(answersMap);
+				const correctAnswers = Object.entries(answersMap)
+					.filter(([key, value]) => value === true)
+					.map(([key]) => key);
+				setCorrectAnswers(correctAnswers);
 			}
 			setLoading(false);
 		}
@@ -73,5 +82,5 @@ export default function useAnswers({ category, difficulty }) {
 		return isQuizCorrect;
 	};
 
-	return { quizData, answersData, checkAnswers, loading };
+	return { quizData, answersData, checkAnswers, loading, correctAnswers };
 }

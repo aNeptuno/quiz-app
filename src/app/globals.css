@@ -7,13 +7,30 @@ header {
 }
 
 h1 {
-	@apply sm:text-3xl text-2xl py-4;
+	@apply sm:text-3xl text-2xl py-10;
 }
 
 h2 {
-	@apply sm:text-2xl text-sm;
+	@apply sm:text-2xl text-xl;
 }
 
 body {
 	@apply sm:text-xl;
+}
+
+form {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-rows: auto;
+	grid-template-areas:
+		'info info info'
+		'info info info';
+}
+
+.formInfo {
+	grid-area: info;
+}
+
+.formBtn {
+	grid-column: 2;
 }

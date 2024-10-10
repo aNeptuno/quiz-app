@@ -3,7 +3,7 @@ export default function SubmitButton({ text }) {
 		<button
 			aria-label={text}
 			type="submit"
-			className=" bg-slate-300 hover:bg-slate-400 rounded text-slate-50 px-6 py-3 mt-6"
+			className="bg-slate-300 hover:bg-slate-400 rounded text-slate-50 px-6 py-3 mt-10"
 		>
 			{text}
 		</button>

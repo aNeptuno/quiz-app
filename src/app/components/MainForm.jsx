@@ -44,47 +44,49 @@ export default function MainForm({ categories }) {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="text-center">
-			<div className="flex flex-row flex-1 items-center">
-				<label htmlFor="categories">Choose a category: </label>
-				<select
-					name="categories"
-					id="categories"
-					value={category}
-					onChange={handleChange}
-					className="m-5 p-2"
-				>
-					{categories.map(cat => {
-						return (
-							<option
-								key={cat.name.toLowerCase()}
-								value={cat.name.toLowerCase()}
-							>
-								{capitalizeStr(cat.name)}
-							</option>
-						);
-					})}
-				</select>
+		<form onSubmit={handleSubmit}>
+			<div className="formInfo">
+				<div className="flex flex-row flex-1 items-center">
+					<label htmlFor="categories">Choose a category: </label>
+					<select
+						name="categories"
+						id="categories"
+						value={category}
+						onChange={handleChange}
+						className="m-5 p-2"
+					>
+						{categories.map(cat => {
+							return (
+								<option
+									key={cat.name.toLowerCase()}
+									value={cat.name.toLowerCase()}
+								>
+									{capitalizeStr(cat.name)}
+								</option>
+							);
+						})}
+					</select>
+				</div>
+				<div className="flex flex-row flex-1 items-center">
+					<label htmlFor="categories">Choose a difficulty: </label>
+					<select
+						name="difficulty"
+						id="difficulty"
+						value={difficulty}
+						onChange={handleChange}
+						className="m-5 p-2"
+					>
+						{difficulties.map(diff => {
+							return (
+								<option key={diff} value={diff}>
+									{capitalizeStr(diff)}
+								</option>
+							);
+						})}
+					</select>
+				</div>
 			</div>
-			<div className="flex flex-row flex-1 items-center">
-				<label htmlFor="categories">Choose a difficulty: </label>
-				<select
-					name="difficulty"
-					id="difficulty"
-					value={difficulty}
-					onChange={handleChange}
-					className="m-5 p-2"
-				>
-					{difficulties.map(diff => {
-						return (
-							<option key={diff} value={diff}>
-								{capitalizeStr(diff)}
-							</option>
-						);
-					})}
-				</select>
-			</div>
-			<Link href={`/quiz/${category}/${difficulty}`}>
+			<Link href={`/quiz/${category}/${difficulty}`} className="formBtn">
 				<SubmitButton text="Start quiz" />
 			</Link>
 		</form>

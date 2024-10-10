@@ -22,7 +22,7 @@ export default function QuizInfo({ correctAnswers, quizData, isCorrect }) {
 			<button
 				onClick={getQuestion}
 				aria-label="Next question"
-				className="bg-slate-300 hover:bg-slate-400 rounded text-slate-50 px-4 py-3 mt-6"
+				className="submit-btn rounded px-4 py-3 mt-6"
 			>
 				Next question
 			</button>

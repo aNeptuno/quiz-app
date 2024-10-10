@@ -7,9 +7,9 @@ import Spinner from './Spinner';
 import SubmitButton from './SubmitButton';
 
 function getDiffClass(diff) {
-	if (diff === 'Easy') return `text-green-500`;
-	if (diff === 'Medium') return `text-yellow-500`;
-	if (diff === 'Hard') return `text-red-500`;
+	if (diff === 'Easy') return `difficulty-easy`;
+	if (diff === 'Medium') return `difficulty-medium`;
+	if (diff === 'Hard') return `difficulty-hard`;
 }
 
 export default function Quiz({ category, difficulty }) {
@@ -64,10 +64,12 @@ export default function Quiz({ category, difficulty }) {
 										className="py-4 flex w-full justify-between"
 									>
 										<label htmlFor={item.answer} className="w-4/5">
-											<span className="text-blue-900 font-bold pr-3">
+											<span className="text-blue-900 option-letter font-bold pr-3">
 												{item.option}.{' '}
 											</span>
-											<span className="text-gray-900">{item.answer}</span>
+											<span className="text-gray-900 option-text">
+												{item.answer}
+											</span>
 										</label>
 										<div className="w-1/5">
 											<input

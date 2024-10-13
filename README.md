@@ -4,11 +4,15 @@ Welcome to **QuizApp**! This is a simple web application built with **Next.js** 
 
 ## Features ✨
 
-- 🧑‍💻 Technical questions focused on programming.
+- 🧑‍💻 **Technical Questions**:
+  - Categories: **Code**, **Linux**, **Bash**, **Uncategorized**, **Docker**, **SQL**, **CMS**, **DevOps**.
+  - Difficulties: **Easy**, **Medium**, **Hard**.
 - ⚡️ Modern and responsive interface with **Tailwind CSS**.
 - 🚀 Built using **Next.js** for fast performance.
-- ✅ Instant feedback on correct/incorrect answers.
-- 🏆 Final score at the end of the quiz.
+- ✅ **Engaging Feedback**:
+  - Provides detailed feedback for each question answered.
+  - Celebratory confetti animation for correct answers to enhance user experience.
+- 🎨 **Theming Support**: Easily switch between light and dark modes using the Context API for a personalized experience.
 
 ## Tech Stack 🛠️
 

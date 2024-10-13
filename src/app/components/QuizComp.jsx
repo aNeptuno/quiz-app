@@ -42,7 +42,7 @@ export default function Quiz({ category, difficulty }) {
 	};
 
 	return (
-		<section className="sm:p-0 p-6 md:w-[80%] lg:w-[50%] m-auto">
+		<section className="sm:p-0 px-6 md:w-[80%] lg:w-[50%] m-auto">
 			{loading ? (
 				<Spinner />
 			) : (

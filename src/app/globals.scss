@@ -118,3 +118,13 @@ form {
 .formBtn {
 	grid-column: 2;
 }
+
+.quiz-modal {
+	background-color: $body-primary;
+	color: $body-accent;
+
+	html.dark & {
+		background-color: $body-accent;
+		color: $body-primary;
+	}
+}

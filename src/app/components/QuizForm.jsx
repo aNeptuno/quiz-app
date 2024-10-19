@@ -3,13 +3,15 @@ import confetti from 'canvas-confetti';
 import { useEffect, useState } from 'react';
 import useAnswers from '../hooks/useAnswers';
 import QuizInfo from './QuizInfo';
-import SubmitButton from './SubmitButton';
 import Spinner from './Spinner';
+import SubmitButton from './SubmitButton';
 
 export default function QuizForm({ quizzes }) {
 	const [selectedAnswers, setSelectedAnswers] = useState([]);
 	const [isCorrect, setIsCorrect] = useState(null);
 	const [correctCount, setCorrectCount] = useState(0);
+	const [open, setOpen] = useState(false);
+
 	const {
 		currentQuiz,
 		answersData,
@@ -21,8 +23,12 @@ export default function QuizForm({ quizzes }) {
 		quizzes,
 	});
 
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+
 	const nextQuestion = () => {
 		getNextQuiz();
+		handleClose();
 		setSelectedAnswers([]);
 		setIsCorrect(null);
 	};
@@ -35,6 +41,7 @@ export default function QuizForm({ quizzes }) {
 			setCorrectCount(prev => prev + 1);
 			confetti();
 		}
+		handleOpen();
 	};
 
 	const handleChange = e => {
@@ -103,24 +110,31 @@ export default function QuizForm({ quizzes }) {
 							</div>
 						)}
 					</form>
-					{isCorrect !== null && (
-						<QuizInfo
-							currentQuiz={currentQuiz}
-							correctAnswers={correctAnswers}
-							isCorrect={isCorrect}
-							getNextQuiz={nextQuestion}
-						/>
-					)}
+					<QuizInfo
+						currentQuiz={currentQuiz}
+						correctAnswers={correctAnswers}
+						isCorrect={isCorrect}
+						getNextQuiz={nextQuestion}
+						open={open}
+						handleClose={handleClose}
+					/>
 				</>
 			) : (
-				<div>
-					<h1>
-						Congratulations! You completed all available questions for this
-						category and difficulty! 🎉
-					</h1>
-					<h2>
-						Correct questions: {correctCount}/{quizzes.length - 1}
-					</h2>
+				<div className="flex flex-col items-center">
+					<div>
+						<h1>
+							Congratulations!🎉
+							<br /> You completed all available questions for this category and
+							difficulty! 🎉
+						</h1>
+						<h2>
+							Correct questions: {correctCount}/{quizzes.length - 1}
+						</h2>
+					</div>
+
+					<button className="submit-btn rounded px-4 py-3 mt-20">
+						I want to keep practicing!
+					</button>
 				</div>
 			)}
 		</>

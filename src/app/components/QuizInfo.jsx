@@ -1,8 +1,9 @@
-const getQuestion = () => {
-	window.location.reload();
-};
-
-export default function QuizInfo({ correctAnswers, quizData, isCorrect }) {
+export default function QuizInfo({
+	correctAnswers,
+	currentQuiz,
+	isCorrect,
+	getNextQuiz,
+}) {
 	return (
 		<div className="flex flex-col pb-4 items-center">
 			{isCorrect === true ? (
@@ -18,9 +19,9 @@ export default function QuizInfo({ correctAnswers, quizData, isCorrect }) {
 					<span>No correct answers available</span>
 				)}
 			</p>
-			<p>{quizData.explanation ?? quizData.explanation}</p>
+			<p>{currentQuiz.explanation ?? currentQuiz.explanation}</p>
 			<button
-				onClick={getQuestion}
+				onClick={getNextQuiz}
 				aria-label="Next question"
 				className="submit-btn rounded px-4 py-3 mt-6"
 			>

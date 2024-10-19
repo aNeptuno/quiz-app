@@ -1,12 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { api } from '../api';
+import { useCallback, useEffect, useState } from 'react';
 
 // Mock data
 /* import response from '@/app/mocks/response.json';
-const quizDataMock = response[0];
-const answersMock = Object.values(quizDataMock.answers);
-const correctAnswersMock = Object.values(quizDataMock.correct_answers);
+const currentQuizMock = response[0];
+const answersMock = Object.values(currentQuizMock.answers);
+const correctAnswersMock = Object.values(currentQuizMock.correct_answers);
 
 const answersDataMock = getAnswersData(answersMock, correctAnswersMock);
 const answersMapMock = getAnswersMap(answersMock, correctAnswersMock);
@@ -38,41 +37,32 @@ function getAnswersMap(answers, correctAnswers) {
 	return answersMap;
 }
 
-function getRandomInt(max) {
-	return Math.floor(Math.random() * max);
-}
-
-export default function useAnswers({ category, difficulty }) {
-	const [quizData, setQuizData] = useState(null);
-	const [loading, setLoading] = useState(true);
+export default function useAnswers({ quizzes }) {
+	const [currentIndex, setCurrentIndex] = useState(0);
 	const [answersData, setAnswersData] = useState(null);
 	const [answersMap, setAnswersMap] = useState(null);
 	const [correctAnswers, setCorrectAnswers] = useState([]);
+	const [finished, setFinished] = useState(false);
+
+	const setCurrentQuizData = useCallback(() => {
+		const currentQuiz = quizzes[currentIndex];
+		if (currentQuiz) {
+			const answers = Object.values(currentQuiz.answers);
+			const correctAnswersData = Object.values(currentQuiz.correct_answers);
+			const answersData = getAnswersData(answers, correctAnswersData);
+			const answersMap = getAnswersMap(answers, correctAnswersData);
+			setAnswersData(answersData);
+			setAnswersMap(answersMap);
+			const correctAnswers = Object.entries(answersMap)
+				.filter(([key, value]) => value === true)
+				.map(([key]) => key);
+			setCorrectAnswers(correctAnswers);
+		}
+	}, [currentIndex, quizzes]);
 
 	useEffect(() => {
-		async function getQuizData() {
-			setLoading(true);
-			const { quizData } = await api.fetchQuiz({ category, difficulty });
-			let index = getRandomInt(quizData.length);
-			setQuizData(quizData[index]);
-			if (quizData && quizData.length > 0) {
-				const answers = Object.values(quizData[index].answers);
-				const correctAnswersData = Object.values(
-					quizData[index].correct_answers
-				);
-				const answersData = getAnswersData(answers, correctAnswersData);
-				const answersMap = getAnswersMap(answers, correctAnswersData);
-				setAnswersData(answersData);
-				setAnswersMap(answersMap);
-				const correctAnswers = Object.entries(answersMap)
-					.filter(([key, value]) => value === true)
-					.map(([key]) => key);
-				setCorrectAnswers(correctAnswers);
-			}
-			setLoading(false);
-		}
-		getQuizData();
-	}, [category, difficulty]);
+		setCurrentQuizData();
+	}, [currentIndex, setCurrentQuizData]);
 
 	const checkAnswers = selectedAnswers => {
 		if (selectedAnswers.length === 0) return false;
@@ -82,5 +72,18 @@ export default function useAnswers({ category, difficulty }) {
 		return isQuizCorrect;
 	};
 
-	return { quizData, answersData, checkAnswers, loading, correctAnswers };
+	const getNextQuiz = () => {
+		if (currentIndex < quizzes.length - 1) {
+			setCurrentIndex(prevIndex => prevIndex + 1);
+		} else setFinished(true);
+	};
+
+	return {
+		currentQuiz: quizzes[currentIndex],
+		answersData,
+		checkAnswers,
+		correctAnswers,
+		getNextQuiz,
+		finished,
+	};
 }

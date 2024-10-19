@@ -21,13 +21,15 @@ export const api = {
 	},
 	fetchQuiz: async ({ category, difficulty }) => {
 		const URL = `${process.env.NEXT_PUBLIC_API_QUESTIONS}?category=${category}&difficulty=${difficulty}`;
-		let quizData = {};
+		let quizData = [];
 		try {
 			const res = await fetch(URL, {
 				headers: {
 					'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
 					'Content-Type': 'application/json',
 				},
+				method: 'GET',
+				cache: 'force-cache',
 			});
 			if (!res.ok) {
 				throw new Error(`Error fetching quiz ${res.status}`);
@@ -36,6 +38,6 @@ export const api = {
 		} catch (error) {
 			throw new Error(`Error fetching quiz: ${error}`);
 		}
-		return { quizData };
+		return { quizzes: quizData };
 	},
 };
